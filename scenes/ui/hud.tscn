@@ -80,6 +80,25 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
+[sub_resource type="StyleBoxFlat" id="Style_XP_BG"]
+bg_color = Color(0.06, 0.06, 0.14, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.25, 0.75, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_XP_Fill"]
+bg_color = Color(0.55, 0.35, 1.0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_script")
 
@@ -282,6 +301,44 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 11
 text = "• Esc — Курсор мыши"
+
+[node name="XPContainer" type="VBoxContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 10.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="LevelLabel" type="Label" parent="Root/XPContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.6, 1.0, 1)
+theme_override_font_sizes/font_size = 14
+text = "УРОВЕНЬ 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XPBar" type="ProgressBar" parent="Root/XPContainer"]
+custom_minimum_size = Vector2(320, 16)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_XP_BG")
+theme_override_styles/fill = SubResource("Style_XP_Fill")
+value = 0.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Root/XPContainer/XPBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 10
+text = "0 / 100 XP"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Toast" type="Label" parent="Root"]
 visible = false

@@ -73,7 +73,7 @@ func process_idle(delta):
 			# Случайное блуждание можно добавить здесь
 			state_timer = randf_range(1.0, 3.0)
 
-func process_chase(delta):
+func process_chase(_delta):
 	if not target or is_target_lost():
 		change_state(State.IDLE)
 		return
@@ -116,7 +116,7 @@ func process_death(delta):
 	# Здесь можно добавить физику ragdoll позже
 
 # --- Боевая система ---
-func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO, knockback_force: float = 0.0):
+func take_damage(amount: float, is_heavy: bool = false, source_pos: Vector3 = Vector3.ZERO):
 	if is_dead:
 		return
 	
@@ -125,14 +125,16 @@ func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO, knockback
 	update_visuals()
 	
 	# Отталкивание
-	if knockback_force > 0:
-		velocity += knockback_dir.normalized() * knockback_force
+	if source_pos != Vector3.ZERO:
+		var push_dir = (global_position - source_pos).normalized()
+		push_dir.y = 0
+		velocity += push_dir * (12.0 if is_heavy else 5.0)
 	
 	if health <= 0:
 		die()
 	else:
 		# Шанс оглушения при сильном ударе
-		if knockback_force > 20.0:
+		if is_heavy:
 			stun(0.5)
 	
 	health_changed.emit(health, max_health)

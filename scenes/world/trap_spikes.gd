@@ -14,7 +14,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if body is Player:
 		_try_hit_player(body)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var overlapping = get_overlapping_bodies()
 	for body in overlapping:
 		if body is Player:

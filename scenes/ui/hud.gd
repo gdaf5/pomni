@@ -13,6 +13,10 @@ class_name PlayerHUD
 @onready var reload_indicator: Label = $Root/StatusContainer/AmmoContainer/ReloadIndicator
 @onready var inventory_ui: InventoryUI = $InventoryUI
 @onready var skill_tree_ui: SkillTreeUI = $SkillTreeUI
+@onready var xp_container: VBoxContainer = $Root/XPContainer
+@onready var level_label: Label = $Root/XPContainer/LevelLabel
+@onready var xp_bar: ProgressBar = $Root/XPContainer/XPBar
+@onready var xp_bar_label: Label = $Root/XPContainer/XPBar/Label
 
 var current_hp_val: float = 100.0
 var max_hp_val: float = 100.0
@@ -28,6 +32,10 @@ func _ready() -> void:
 	add_to_group("hud")
 	inventory_ui.closed.connect(_on_panel_closed)
 	skill_tree_ui.closed.connect(_on_panel_closed)
+	GameManager.init_progression()
+	GameManager.player_progression.stats_updated.connect(_update_xp_display)
+	GameManager.player_progression.level_up.connect(_on_level_up)
+	_update_xp_display()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):
@@ -62,6 +70,19 @@ func show_toast(text: String, duration: float = 2.5) -> void:
 	var tween := create_tween()
 	tween.tween_interval(duration)
 	tween.tween_callback(func(): toast_label.visible = false)
+
+func _update_xp_display() -> void:
+	var prog := GameManager.player_progression
+	if not prog:
+		return
+	level_label.text = "УРОВЕНЬ %d" % prog.current_level
+	xp_bar.max_value = max(1, prog.xp_to_next_level)
+	xp_bar.value = prog.current_xp
+	xp_bar_label.text = "%d / %d XP" % [prog.current_xp, prog.xp_to_next_level]
+
+func _on_level_up(level: int) -> void:
+	show_toast("НОВЫЙ УРОВЕНЬ %d! +1 очко навыка (клавиша K)" % level)
+	_update_xp_display()
 
 func connect_to_player(player: Player) -> void:
 	_player = player

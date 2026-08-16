@@ -52,7 +52,6 @@ func create_crystal_material() -> StandardMaterial3D:
 	
 	# Эффект преломления (симуляция)
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.alpha = 0.9
 	
 	return material
 
@@ -91,7 +90,7 @@ func ground_slam():
 	var players = get_tree().get_nodes_in_group("player")
 	for player in players:
 		if player.global_position.distance_to(global_position) <= hit_range:
-			player.take_damage(ground_slam_damage, (player.global_position - global_position).normalized(), 30.0)
+			player.take_damage(ground_slam_damage, true, global_position)
 
 func crystal_spike_eruption():
 	# Призыв кристаллических шипов вокруг себя
@@ -103,7 +102,7 @@ func crystal_spike_eruption():
 	var players = get_tree().get_nodes_in_group("player")
 	for player in players:
 		if player.global_position.distance_to(global_position) <= 5.0:
-			player.take_damage(crystal_spike_damage, Vector3.UP * 10.0, 20.0)
+			player.take_damage(crystal_spike_damage, true, global_position)
 	
 	remove_crystal_spikes()
 
@@ -132,7 +131,7 @@ func charge_attack():
 	for player in players:
 		var dist = player.global_position.distance_to(global_position)
 		if dist <= 3.0:
-			player.take_damage(damage * 1.5, direction, 40.0)
+			player.take_damage(damage * 1.5, true, global_position)
 
 func defensive_crystal_burst():
 	# В режиме защиты: взрыв кристаллических осколков
@@ -191,7 +190,7 @@ func explode_crystal_shards():
 	for player in players:
 		var dist = player.global_position.distance_to(global_position)
 		if dist <= 8.0:
-			player.take_damage(crystal_spike_damage * 0.8, (player.global_position - global_position).normalized(), 25.0)
+			player.take_damage(crystal_spike_damage * 0.8, true, global_position)
 
 func start_charging_visuals():
 	# Усиление свечения во время зарядки
@@ -200,7 +199,7 @@ func start_charging_visuals():
 		var tween = get_tree().create_tween()
 		tween.tween_property(mat, "emission_energy_multiplier", 5.0, charge_timer)
 
-func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO, knockback_force: float = 0.0):
+func take_damage(amount: float, is_heavy: bool = false, source_pos: Vector3 = Vector3.ZERO):
 	# Проверка перехода в режим защиты
 	if health > max_health * defense_mode_threshold and health - amount <= max_health * defense_mode_threshold:
 		enter_defense_mode()
@@ -209,7 +208,7 @@ func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO, knockback
 	if is_in_defense_mode:
 		amount *= 0.6 # 40% снижение урона
 	
-	super.take_damage(amount, knockback_dir, knockback_force)
+	super.take_damage(amount, is_heavy, source_pos)
 
 func enter_defense_mode():
 	is_in_defense_mode = true

@@ -1,0 +1,86 @@
+78098b89c88a74ebe8c20117b8754620
+::res://::1786903806
+icon.svg::CompressedTexture2D::7975541587113670003::1786655871::1786820322::1::::<><><>0<>0<>dd2685fc477b3ba58bfb5dfd45b9f937<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile::-1::1786901726::0::1::::<><><>0<>0<><>::
+::res://assets/::1786734894
+::res://assets/animations/::1786820325
+Casting Spell.fbx::PackedScene::4344470938506810086::1786734537::1786820325::1::::<><><>0<>0<>a70ed0959dc0559f4f7fbb244ba01042<>res://.godot/imported/Casting Spell.fbx-2fcd8514e918b787a3e270514519f101.scn::
+Climbing.fbx::PackedScene::7110233473397140222::1786734508::1786820325::1::::<><><>0<>0<>9153f7d7249d27fc00c347fe2a25ea3f<>res://.godot/imported/Climbing.fbx-3ecddb61a0a9a545ca1f6530a1096f4c.scn::
+Dancing Running Man.fbx::PackedScene::7742316426740843089::1786734445::1786820325::1::::<><><>0<>0<>88c0c1b5265e65e19aad2c51ec0c115e<>res://.godot/imported/Dancing Running Man.fbx-2ceeb77414ee52706dc093f7cbb12e3c.scn::
+Dodging.fbx::PackedScene::4635492108155614366::1786734665::1786820324::1::::<><><>0<>0<>12f33a0d7d7580ffd766cedd12535a9a<>res://.godot/imported/Dodging.fbx-ae53396e37cc3787770dbdfe2cdef6d4.scn::
+Drunk Run Forward.fbx::PackedScene::7740322236000607499::1786734462::1786820324::1::::<><><>0<>0<>c5ecffd5f84c974a62f6f205927745a6<>res://.godot/imported/Drunk Run Forward.fbx-9010def9915b05b8a6593132b69e065e.scn::
+Falling To Roll.fbx::PackedScene::4389211923472958678::1786816788::1786820324::1::::<><><>0<>0<>bfc382a23c01e9a0d1165b1614c2618f<>res://.godot/imported/Falling To Roll.fbx-7bc60cb75b863a54400e476926897c06.scn::
+Hip Hop Dancing.fbx::PackedScene::467989059833710877::1786734673::1786820323::1::::<><><>0<>0<>7096d025074f50671a6ff7438f8c0fa4<>res://.godot/imported/Hip Hop Dancing.fbx-aee4bdc9f9bfc2e6c7135eb7c0bf5b98.scn::
+Pistol Strafe.fbx::PackedScene::2168445803590047755::1786734458::1786820323::1::::<><><>0<>0<>7472964250dc2fe6568c97e240e97d54<>res://.godot/imported/Pistol Strafe.fbx-baff7587829be03f19f77da76b149994.scn::
+Roundhouse Kick.fbx::PackedScene::4206534824162376860::1786816692::1786820323::1::::<><><>0<>0<>9d0354697e3c1d1d32aef89c109647f5<>res://.godot/imported/Roundhouse Kick.fbx-1a06a10be556ff8b667f81ae8a136df3.scn::
+Run.fbx::PackedScene::3658562035545125546::1786734648::1786820322::1::::<><><>0<>0<>d6eb15223c2974f44366fa60981e9e6b<>res://.godot/imported/Run.fbx-8675785534e4c4788f23e12743980e77.scn::
+Running Arc.fbx::PackedScene::7385530240668450505::1786734607::1786820322::1::::<><><>0<>0<>f84d03c3b1918b797bdd8a6f52168ff3<>res://.godot/imported/Running Arc.fbx-0e966798316b79407c7afe2adeedb605.scn::
+Running Slide.fbx::PackedScene::2659002142483859274::1786734589::1786820322::1::::<><><>0<>0<>c8026282952dbdb37e3bda7fa27ee9fb<>res://.godot/imported/Running Slide.fbx-217edadcf4d4aadf3a310852dd40fd24.scn::
+Side Kick.fbx::PackedScene::4406684414198568520::1786734528::1786820323::1::::<><><>0<>0<>0f60fd9dbb077c62113968b9b55f8199<>res://.godot/imported/Side Kick.fbx-2ae73d8142a1fb38eeee78b76a3b1bd5.scn::
+Walking.fbx::PackedScene::5916398686360466499::1786734491::1786820324::1::::<><><>0<>0<>c985d3aae14c88548725f46462c8c032<>res://.godot/imported/Walking.fbx-a17a5e9807a8458d066589326a10c768.scn::
+Wheelbarrow Walk Turn.fbx::PackedScene::1517556155354878537::1786734397::1786820325::1::::<><><>0<>0<>523749d4510f09116032e0576ee3f729<>res://.godot/imported/Wheelbarrow Walk Turn.fbx-bfc46bfdf522bfe406e977255e800d9f.scn::
+::res://scenes/::1786903063
+::res://scenes/characters/::1786655622
+::res://scenes/characters/dummy/::1786733769
+dummy.gd::GDScript::3603564190625819370::1786904381::0::1::::TrainingDummy<>CharacterBody3D<><>0<>0<><>::
+dummy.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::res://scenes/characters/dummy/dummy.gd
+::res://scenes/characters/player/::1786791431
+player.gd::GDScript::2001287955144809989::1786904381::0::1::::Player<>CharacterBody3D<><>0<>0<><>::
+player.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::res://scenes/characters/player/player.gd<>res://scenes/characters/player/player_model.tscn
+player_model.gd::GDScript::5182814647778540875::1786791842::0::1::::PlayerModel<>Node3D<><>0<>1<><>::
+player_model.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::res://scenes/characters/player/player_model.gd
+player_skeleton.gd::GDScript::5517773391477578487::1786741015::0::1::::<>Player<><>0<>0<><>::
+player_skeleton.tscn::PackedScene::-1::1786822292::0::1::::<><><>0<>0<><>::res://scenes/characters/player/player_skeleton.gd<>res://scenes/characters/player/skeleton_player_model.gd
+skeleton_player_model.gd::GDScript::8276928852659559805::1786820114::0::1::::SkeletonPlayerModel<>PlayerModel<><>0<>1<><>::
+::res://scenes/enemies/::1786903063
+crystal_colossus.tscn::PackedScene::358824791788940777::1786903167::0::1::::<><><>0<>0<><>::res://scripts/enemies/crystal_colossus.gd
+void_reaper.tscn::PackedScene::7123522974581127690::1786903181::0::1::::<><><>0<>0<><>::res://scripts/enemies/void_reaper.gd
+::res://scenes/ui/::1786903491
+character_select.gd::GDScript::2198979870732007227::1786733841::0::1::::<>Control<><>0<>0<><>::
+character_select.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::res://scenes/ui/character_select.gd
+hud.gd::GDScript::8996978815063096268::1786903546::0::1::::PlayerHUD<>CanvasLayer<><>0<>0<><>::
+hud.tscn::PackedScene::-1::1786904365::0::1::::<><><>0<>0<><>::res://scenes/ui/hud.gd<>res://scenes/ui/inventory_ui.tscn<>res://scenes/ui/skill_tree_ui.tscn
+inventory_ui.gd::GDScript::3064571826566188994::1786822990::0::1::::InventoryUI<>PanelContainer<><>0<>0<><>::
+inventory_ui.tscn::PackedScene::-1::1786822799::0::1::::<><><>0<>0<><>::res://scenes/ui/inventory_ui.gd
+main_menu.gd::GDScript::6900500685928690964::1786733824::0::1::::<>Control<><>0<>0<><>::
+main_menu.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::res://scenes/ui/main_menu.gd
+skill_tree_ui.gd::GDScript::3292829620275901146::1786903739::0::1::::SkillTreeUI<>Control<><>0<>0<><>::
+skill_tree_ui.tscn::PackedScene::-1::1786903491::0::1::::<><><>0<>0<><>::res://scenes/ui/skill_tree_ui.gd
+::res://scenes/vfx/::1786731528
+bullet_tracer.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+damage_number.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+hit_particles.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+impact_spark.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+muzzle_flash.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+shell_casing.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+slash_effect.tscn::PackedScene::-1::1786904381::0::1::::<><><>0<>0<><>::
+::res://scenes/world/::1786822950
+dungeon.tscn::PackedScene::-1::1786903680::0::1::::<><><>0<>0<><>::res://scenes/world/world.gd<>res://scenes/ui/hud.tscn<>res://scenes/characters/dummy/dummy.tscn<>res://scripts/portal.gd<>res://scenes/world/trap_spikes.gd<>res://scenes/world/treasure_chest.gd<>res://scenes/enemies/void_reaper.tscn<>res://scenes/enemies/crystal_colossus.tscn
+meadow.tscn::PackedScene::3757705445826915125::1786822037::0::1::::<><><>0<>0<><>::uid://dstqsprji2h2w::::res://scenes/world/world.gd<>res://scenes/ui/hud.tscn<>res://scenes/characters/dummy/dummy.tscn<>uid://dkgjkvc0k3r6d::::res://scripts/portal.gd
+pickup.gd::GDScript::152738222378645835::1786822902::0::1::::Pickup<>Area3D<><>0<>0<><>::
+pickup.tscn::PackedScene::-1::1786822910::0::1::::<><><>0<>0<><>::res://scenes/world/pickup.gd
+trap_spikes.gd::GDScript::6191706125123096835::1786821476::0::1::::SpikeTrap<>Area3D<><>0<>0<><>::
+treasure_chest.gd::GDScript::1796107482798113519::1786822884::0::1::::TreasureChest<>Area3D<><>0<>0<><>::
+world.gd::GDScript::8462888844598180352::1786903562::0::1::::<>Node3D<><>0<>0<><>::
+world.tscn::PackedScene::-1::1786821848::0::1::::<><><>0<>0<><>::res://scenes/world/world.gd<>res://scenes/ui/hud.tscn<>res://scenes/characters/dummy/dummy.tscn<>res://scripts/portal.gd
+::res://scripts/::1786903845
+animation_library_builder.gd::GDScript::1572135393387032699::1786728448::0::1::::AnimationLibraryBuilder<>Node<><>0<>1<><>::
+assault_rifle_weapon.gd::GDScript::1616891600193580126::1786903871::0::1::::AssaultRifleWeapon<>WeaponBase<><>0<>0<><>::
+game_manager.gd::GDScript::7664090173149744279::1786903111::0::1::::<>Node<><>0<>0<><>::
+items.gd::GDScript::5002282651605950747::1786822770::0::1::::ItemDefinition<>Node<><>0<>0<><>::
+magic_skills.gd::GDScript::3085923878699974786::1786903121::0::1::::MagicSkillDefinition<>Resource<><>0<>0<><>::
+player_progression.gd::GDScript::8151064796052553786::1786903063::0::1::::PlayerProgression<>Node<><>0<>0<><>::
+portal.gd::GDScript::7874102172088264837::1786820853::0::1::::Portal<>Area3D<><>0<>0<><>::
+skill_definition.gd::GDScript::479752306277263827::1786903063::0::1::::SkillDefinition<>Resource<><>0<>0<><>::
+sword_weapon.gd::GDScript::1107847999810938977::1786904381::0::1::::SwordWeapon<>WeaponBase<><>0<>0<><>::
+weapon_base.gd::GDScript::2329144603942195984::1786904381::0::1::::WeaponBase<>Node<><>0<>0<><>::
+::res://scripts/enemies/::1786903194
+advanced_enemy_base.gd::GDScript::6844112949978567705::1786903063::0::1::::AdvancedEnemyBase<>CharacterBody3D<><>0<>0<><>::
+crystal_colossus.gd::GDScript::4111599193406974524::1786903134::0::1::::CrystalColossus<>AdvancedEnemyBase<><>0<>0<><>::
+enemy_spawner.gd::GDScript::5080293854094328463::1786903063::0::1::::EnemySpawner<>Node<><>0<>0<><>::
+void_reaper.gd::GDScript::3590096835079990961::1786903063::0::1::::VoidReaper<>AdvancedEnemyBase<><>0<>0<><>::
+::res://рыцарь/::1786819003
+Paladin J Nordstrom.fbx::PackedScene::5941241570642018023::1786734102::1786819003::1::::<><><>0<>0<>fb82781c51683cd79afd8cca2c4fc2c8<>res://.godot/imported/Paladin J Nordstrom.fbx-dca366f4bd073f51e11b1990921ea007.scn::uid://bap1yvbxif7vq::::res://рыцарь/Paladin J Nordstrom_0.png<>uid://bm3ojgkcdoe6c::::res://рыцарь/Paladin J Nordstrom_2.png
+Paladin J Nordstrom_0.png::CompressedTexture2D::2419008956460740386::1786734716::1786818998::1::::<><><>0<>0<>3c01a7d136f827d64c8f0a0f1413f108<>res://.godot/imported/Paladin J Nordstrom_0.png-86af75361fda795c156f8b27047366f4.s3tc.ctex::
+Paladin J Nordstrom_1.png::CompressedTexture2D::8896797393685862486::1786734717::1786819000::1::::<><><>0<>0<>7224577512e70167719b633f3d4d65a7<>res://.godot/imported/Paladin J Nordstrom_1.png-d670e1cd7acc3f8a60ff83108fee4624.ctex::
+Paladin J Nordstrom_2.png::CompressedTexture2D::3287355825190618768::1786734720::1786818998::1::::<><><>0<>0<>19c8b69923876bf6d07b897afae3d2e0<>res://.godot/imported/Paladin J Nordstrom_2.png-62b9f3c7f5668b17e89ce3ccc09b0232.s3tc.ctex::

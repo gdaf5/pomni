@@ -47,7 +47,6 @@ func create_void_material() -> Material:
 	material.emission = Color(0.5, 0.0, 1.0) # Яркое фиолетовое свечение
 	material.emission_energy_multiplier = 2.0
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.alpha_scissor_enabled = true
 	return material
 
 func perform_attack():
@@ -106,7 +105,7 @@ func basic_void_slash():
 func deal_damage_to_target(amount: float):
 	if not target or not target.has_method("take_damage"):
 		return
-	target.take_damage(amount, (target.global_position - global_position).normalized(), 15.0)
+	target.take_damage(amount, true, global_position)
 
 func create_shadow_clone() -> Node3D:
 	# Создание временного клона
@@ -129,13 +128,13 @@ func remove_shadow_clone():
 		clone_node = null
 	has_clone = false
 
-func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO, knockback_force: float = 0.0):
+func take_damage(amount: float, is_heavy: bool = false, source_pos: Vector3 = Vector3.ZERO):
 	# Уникальная механика: шанс телепортации при получении урона
 	if can_teleport and randf() < teleport_chance and amount > 10.0:
 		teleport_away()
 		amount *= 0.5 # Снижение урона после успешной телепортации
 	
-	super.take_damage(amount, knockback_dir, knockback_force)
+	super.take_damage(amount, is_heavy, source_pos)
 
 func teleport_away():
 	# Телепортация в случайное место поблизости
@@ -152,7 +151,7 @@ func teleport_away():
 	teleport_cooldown = 3.0
 	get_tree().create_timer(teleport_cooldown).timeout.connect(func(): can_teleport = true)
 
-func spawn_void_effect(position: Vector3):
+func spawn_void_effect(effect_pos: Vector3):
 	# Создание визуального эффекта пустоты
 	# В реальной игре здесь будет instantiation префаба частиц
 	var effect = Area3D.new()
@@ -160,7 +159,7 @@ func spawn_void_effect(position: Vector3):
 	collision.shape = SphereShape3D.new()
 	effect.add_child(collision)
 	get_parent().add_child(effect)
-	effect.global_position = position
+	effect.global_position = effect_pos
 	
 	# Автоудаление
 	get_tree().create_timer(0.5).timeout.connect(func(): effect.queue_free())

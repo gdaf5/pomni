@@ -24,7 +24,7 @@ func _on_body_exited(body: Node3D) -> void:
 	if body == _player_in_range:
 		_player_in_range = null
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if opened:
 		return
 	if _player_in_range and _player_in_range is Player:
