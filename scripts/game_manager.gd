@@ -1,6 +1,6 @@
 extends Node
 
-enum CharacterType { CUSTOM, SKELETON }
+enum CharacterType { CUSTOM, SKELETON, GOJO }
 
 var selected_character: CharacterType = CharacterType.CUSTOM
 
@@ -115,6 +115,8 @@ func get_character_scene() -> String:
 			return "res://scenes/characters/player/player.tscn"
 		CharacterType.SKELETON:
 			return "res://scenes/characters/player/player_skeleton.tscn"
+		CharacterType.GOJO:
+			return "res://scenes/characters/player/player_gojo.tscn"
 	return "res://scenes/characters/player/player.tscn"
 
 func save_player_state(player) -> void:

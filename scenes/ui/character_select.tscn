@@ -42,9 +42,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -320.0
+offset_left = -480.0
 offset_top = -120.0
-offset_right = 320.0
+offset_right = 480.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -117,6 +117,42 @@ Mixamo анимации"
 horizontal_alignment = 1
 
 [node name="SkeletonButton" type="Button" parent="HBox/SkeletonCard/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+theme_override_font_sizes/font_size = 16
+text = "ВЫБРАТЬ"
+
+[node name="GojoCard" type="PanelContainer" parent="HBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(280, 240)
+
+[node name="VBox" type="VBoxContainer" parent="HBox/GojoCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="Label" parent="HBox/GojoCard/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "👁"
+horizontal_alignment = 1
+
+[node name="Name" type="Label" parent="HBox/GojoCard/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.5, 1.0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Годжо"
+horizontal_alignment = 1
+
+[node name="Desc" type="Label" parent="HBox/GojoCard/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+text = "Skeleton3D персонаж
+Rigify скелет (161 кость)
+Mixamo анимации"
+horizontal_alignment = 1
+
+[node name="GojoButton" type="Button" parent="HBox/GojoCard/VBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 40)
 theme_override_font_sizes/font_size = 16
