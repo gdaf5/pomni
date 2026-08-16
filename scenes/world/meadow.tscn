@@ -45,8 +45,17 @@ material = SubResource("Mat_Hill")
 radius = 8.0
 height = 8.0
 
-[sub_resource type="SphereShape3D" id="Shape_Hill"]
-radius = 8.0
+[sub_resource type="BoxShape3D" id="Shape_Hill1"]
+size = Vector3(16, 4.8, 16)
+
+[sub_resource type="BoxShape3D" id="Shape_Hill2"]
+size = Vector3(16, 4.0, 16)
+
+[sub_resource type="BoxShape3D" id="Shape_Hill3"]
+size = Vector3(16, 3.6, 16)
+
+[sub_resource type="BoxShape3D" id="Shape_Hill4"]
+size = Vector3(16, 4.4, 16)
 
 [sub_resource type="StandardMaterial3D" id="Mat_Rock"]
 albedo_color = Color(0.45, 0.45, 0.5, 1)
@@ -212,8 +221,8 @@ transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("Mesh_Hill")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill1" unique_id=620489513]
-transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("Shape_Hill")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill1")
 
 [node name="Hill2" type="StaticBody3D" parent="Environment/Hills" unique_id=1276313224]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 2.2, 5)
@@ -224,8 +233,8 @@ transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("Mesh_Hill")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill2" unique_id=1139850553]
-transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("Shape_Hill")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill2")
 
 [node name="Hill3" type="StaticBody3D" parent="Environment/Hills" unique_id=141453845]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2, -20)
@@ -236,8 +245,8 @@ transform = Transform3D(1, 0, 0, 0, 0.45, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("Mesh_Hill")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill3" unique_id=1542561005]
-transform = Transform3D(1, 0, 0, 0, 0.45, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("Shape_Hill")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill3")
 
 [node name="Hill4" type="StaticBody3D" parent="Environment/Hills" unique_id=1059894108]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.6, 12)
@@ -248,8 +257,8 @@ transform = Transform3D(1, 0, 0, 0, 0.55, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("Mesh_Hill")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill4" unique_id=2030838734]
-transform = Transform3D(1, 0, 0, 0, 0.55, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("Shape_Hill")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill4")
 
 [node name="Rocks" type="Node3D" parent="Environment" unique_id=1400187131]
 
@@ -270,11 +279,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.8, 14)
 collision_layer = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Rocks/Rock2" unique_id=1507559900]
-transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("Mesh_Rock")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Rocks/Rock2" unique_id=573040025]
-transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("Shape_Rock")
 
 [node name="Trees" type="Node3D" parent="Environment" unique_id=1357132342]
