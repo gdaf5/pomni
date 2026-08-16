@@ -196,7 +196,7 @@ func explode_crystal_shards():
 func start_charging_visuals():
 	# Усиление свечения во время зарядки
 	if glow_mesh and glow_mesh.material_override is StandardMaterial3D:
-		var mat = glow_mesh.material_override as StandardMaterial3
+		var mat = glow_mesh.material_override as StandardMaterial3D
 		var tween = get_tree().create_tween()
 		tween.tween_property(mat, "emission_energy_multiplier", 5.0, charge_timer)
 

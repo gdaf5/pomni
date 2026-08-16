@@ -23,7 +23,7 @@ class_name MagicSkillDefinition
 @export var prerequisite_ids: Array[String] = []
 
 # Бонусы пассивные (если это пассивный навык)
-@export var passive_mana regen: float = 0.0
+@export var passive_mana_regen: float = 0.0
 @export var passive_damage_bonus: float = 0.0
 @export var passive_resistance: float = 0.0
 

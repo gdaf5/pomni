@@ -1,15 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8qxm9k7n4p2a"]
+[gd_scene load_steps=6 format=3 uid="uid://c8qxm9k7n4p2a"]
 
 [ext_resource type="Script" path="res://scripts/enemies/void_reaper.gd" id="1_void"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape"]
+radius = 0.5
+height = 2.5
+
+[sub_resource type="CapsuleMesh" id="BodyMesh"]
+radius = 0.5
+height = 2.5
+
+[sub_resource type="CylinderMesh" id="TrailMeshMesh"]
+top_radius = 1.0
+bottom_radius = 1.2
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="VoidMat"]
+albedo_color = Color(0.1, 0, 0.2, 1)
+metallic = 0.3
+roughness = 0.4
+emission_enabled = true
+emission = Color(0.5, 0, 1, 1)
+emission_energy_multiplier = 2.0
+transparency = 1
 
 [node name="VoidReaper" type="CharacterBody3D"]
 script = ExtResource("1_void")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("CapsuleShape")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BodyMesh")
+surface_material_override/0 = SubResource("VoidMat")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
@@ -17,13 +42,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 target_position = Vector3(0, 0, -15)
 collision_mask = 2
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = null
-
 [node name="VoidParticles" type="GPUParticles3D" parent="."]
 emitting = true
 amount = 50
 lifetime = 1.5
 
 [node name="TrailMesh" type="MeshInstance3D" parent="."]
-mesh = ExtResource("trail_mesh")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("TrailMeshMesh")
+surface_material_override/0 = SubResource("VoidMat")
