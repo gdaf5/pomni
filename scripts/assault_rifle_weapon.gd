@@ -1,4 +1,4 @@
-﻿extends WeaponBase
+extends WeaponBase
 class_name AssaultRifleWeapon
 signal ammo_changed(current: int, max_val: int)
 signal weapon_fired
