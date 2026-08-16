@@ -146,7 +146,7 @@ func reset_all_skills() -> void:
 	skill_points_changed.emit(skill_points)
 	stats_updated.emit()
 
-func _get_skill_definition_by_id(skill_id: String) -> SkillDefinition:
+func _get_skill_definition_by_id(_skill_id: String) -> SkillDefinition:
 	# Заглушка - в реальной игре нужно загружать из каталога
 	# Здесь возвращаем null, т.к. каталог навыков будет отдельным ресурсом
 	return null

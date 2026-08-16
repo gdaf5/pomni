@@ -3,13 +3,13 @@ extends Node3D
 class_name PlayerModel
 
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
-@onready var sword_hitbox: Area3D = $Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Sword/Hitbox
-@onready var weapon_mount: Node3D = $Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount
-@onready var sword_node: Node3D = $Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Sword
-@onready var rifle_node: Node3D = $Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Rifle
-@onready var blade_glow: MeshInstance3D = $Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Sword/BladeGlow
-@onready var visor_glow: MeshInstance3D = $Rig/Hips/Chest/Head/VisorGlow
-@onready var rifle_muzzle_glow: MeshInstance3D = $Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Rifle/MuzzlePoint/MuzzleDevice
+@onready var sword_hitbox: Area3D = get_node_or_null("Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Sword/Hitbox") as Area3D
+@onready var weapon_mount: Node3D = get_node_or_null("Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount") as Node3D
+@onready var sword_node: Node3D = get_node_or_null("Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Sword") as Node3D
+@onready var rifle_node: Node3D = get_node_or_null("Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Rifle") as Node3D
+@onready var blade_glow: MeshInstance3D = get_node_or_null("Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Sword/BladeGlow") as MeshInstance3D
+@onready var visor_glow: MeshInstance3D = get_node_or_null("Rig/Hips/Chest/Head/VisorGlow") as MeshInstance3D
+@onready var rifle_muzzle_glow: MeshInstance3D = get_node_or_null("Rig/Hips/Chest/RightShoulder/RightUpperArm/RightForearm/RightHand/WeaponMount/Rifle/MuzzlePoint/MuzzleDevice") as MeshInstance3D
 
 signal hit_registered(body: Node3D, damage: float, is_heavy: bool)
 

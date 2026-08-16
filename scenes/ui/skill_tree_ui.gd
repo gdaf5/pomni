@@ -231,16 +231,16 @@ func _update_detail(skill_def: SkillDefinition) -> void:
 		detail_prereq.text = ""
 		detail_prereq.visible = false
 	
-	unlock_button.pressed.disconnect(_on_unlock_pressed) if unlock_button.pressed.is_connected(_on_unlock_pressed) else null
+	if unlock_button.pressed.is_connected(_on_unlock_pressed):
+		unlock_button.pressed.disconnect(_on_unlock_pressed)
 	unlock_button.pressed.connect(_on_unlock_pressed.bind(skill_def))
 
 func _on_unlock_pressed(skill_def: SkillDefinition) -> void:
-	var current_level = progression.get_skill_level(skill_def.id)
 	if progression.unlock_skill(skill_def, 1):
 		_refresh()
 		_update_detail(skill_def)
 
-func _on_skill_unlocked(skill_id: String, level: int) -> void:
+func _on_skill_unlocked(_skill_id: String, _level: int) -> void:
 	_refresh()
 
 func _update_skill_points_display(points: int) -> void:
