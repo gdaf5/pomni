@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://d9rxm8l6o5q3b"]
+
+[ext_resource type="Script" path="res://scripts/enemies/crystal_colossus.gd" id="1_crystal"]
+
+[node name="CrystalColossus" type="CharacterBody3D"]
+script = ExtResource("1_crystal")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = ExtResource("capsule_shape")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("crystal_mesh")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="GlowMesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("glow_mesh")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="VisionRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -15)
+collision_mask = 2
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = null
+
+[node name="SpikeParticles" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 100
+lifetime = 2.0
