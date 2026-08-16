@@ -1,4 +1,4 @@
-﻿extends CharacterBody3D
+extends CharacterBody3D
 class_name Player
 
 signal health_changed(current: float, max_val: float)

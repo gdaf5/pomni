@@ -1,4 +1,4 @@
-﻿[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3]
 
 [sub_resource type="StandardMaterial3D" id="Mat_Spark"]
 transparency = 1

@@ -1,4 +1,4 @@
-﻿extends CharacterBody3D
+extends CharacterBody3D
 class_name TrainingDummy
 
 @export var max_health: float = 200.0

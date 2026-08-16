@@ -1,4 +1,4 @@
-﻿extends WeaponBase
+extends WeaponBase
 class_name SwordWeapon
 
 @export var combo_damages: Array[float] = [25.0, 35.0, 45.0, 65.0]
