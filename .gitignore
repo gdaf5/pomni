@@ -1,0 +1,12 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Exported builds
+/build/
+/export/
+
+# OS junk
+Thumbs.db
+Desktop.ini
+*.tmp

@@ -1,0 +1,700 @@
+[gd_scene load_steps=36 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/world.gd" id="1_world"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/characters/dummy/dummy.tscn" id="3_dummy"]
+[ext_resource type="Script" path="res://scripts/portal.gd" id="4_portal"]
+[ext_resource type="Script" path="res://scenes/world/trap_spikes.gd" id="5_trap"]
+[ext_resource type="Script" path="res://scenes/world/treasure_chest.gd" id="6_chest"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_Proc"]
+sky_top_color = Color(0.02, 0.02, 0.05, 1)
+sky_horizon_color = Color(0.1, 0.1, 0.2, 1)
+ground_bottom_color = Color(0.03, 0.03, 0.06, 1)
+ground_horizon_color = Color(0.08, 0.08, 0.15, 1)
+
+[sub_resource type="Sky" id="Sky_Dungeon"]
+sky_material = SubResource("Sky_Proc")
+
+[sub_resource type="Environment" id="Env_Dungeon"]
+background_mode = 2
+sky = SubResource("Sky_Dungeon")
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.5
+glow_strength = 0.8
+glow_bloom = 0.1
+fog_enabled = true
+fog_light_color = Color(0.3, 0.2, 0.4, 1)
+fog_density = 0.02
+
+[sub_resource type="StandardMaterial3D" id="Mat_StoneFloor"]
+albedo_color = Color(0.2, 0.2, 0.24, 1)
+metallic = 0.15
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="Mesh_DungeonFloor"]
+material = SubResource("Mat_StoneFloor")
+size = Vector3(90, 1, 26)
+
+[sub_resource type="BoxShape3D" id="Shape_DungeonFloor"]
+size = Vector3(90, 1, 26)
+
+[sub_resource type="StandardMaterial3D" id="Mat_StoneWall"]
+albedo_color = Color(0.25, 0.24, 0.28, 1)
+metallic = 0.1
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Mesh_EndWall"]
+material = SubResource("Mat_StoneWall")
+size = Vector3(90, 6, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_EndWall"]
+size = Vector3(90, 6, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_SideWall"]
+material = SubResource("Mat_StoneWall")
+size = Vector3(1, 6, 26)
+
+[sub_resource type="BoxShape3D" id="Shape_SideWall"]
+size = Vector3(1, 6, 26)
+
+[sub_resource type="BoxMesh" id="Mesh_CrossWall"]
+material = SubResource("Mat_StoneWall")
+size = Vector3(1, 6, 12)
+
+[sub_resource type="BoxShape3D" id="Shape_CrossWall"]
+size = Vector3(1, 6, 12)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Column"]
+albedo_color = Color(0.3, 0.28, 0.32, 1)
+metallic = 0.3
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="Mesh_Column"]
+material = SubResource("Mat_Column")
+top_radius = 0.5
+bottom_radius = 0.6
+height = 5.0
+
+[sub_resource type="CylinderShape3D" id="Shape_Column"]
+top_radius = 0.5
+bottom_radius = 0.6
+height = 5.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Torch"]
+albedo_color = Color(0.9, 0.7, 0.2, 1)
+metallic = 0.9
+roughness = 0.2
+
+[sub_resource type="CylinderMesh" id="Mesh_Torch"]
+material = SubResource("Mat_Torch")
+top_radius = 0.15
+bottom_radius = 0.2
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_FireGlow"]
+albedo_color = Color(1, 0.5, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.55, 0.15, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="SphereMesh" id="Mesh_FireBall"]
+material = SubResource("Mat_FireGlow")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_Portal"]
+albedo_color = Color(0.1, 0.9, 0.5, 0.7)
+emission_enabled = true
+emission = Color(0.1, 0.9, 0.5, 1)
+emission_energy_multiplier = 3.0
+transparency = 1
+
+[sub_resource type="TorusMesh" id="Mesh_PortalRing"]
+material = SubResource("Mat_Portal")
+inner_radius = 1.3
+outer_radius = 1.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_PortalCore"]
+albedo_color = Color(0.3, 1.0, 0.6, 0.6)
+emission_enabled = true
+emission = Color(0.2, 1.0, 0.5, 1)
+emission_energy_multiplier = 2.5
+transparency = 1
+
+[sub_resource type="CylinderMesh" id="Mesh_PortalCore"]
+material = SubResource("Mat_PortalCore")
+top_radius = 1.2
+bottom_radius = 1.2
+height = 0.1
+
+[sub_resource type="CylinderShape3D" id="Shape_PortalZone"]
+top_radius = 2.5
+bottom_radius = 3.0
+height = 2.5
+
+[sub_resource type="Animation" id="Anim_PortalSpin"]
+resource_name = "spin"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ring:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [Vector3(0, 0, 0), Vector3(0, 3.14159, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimLib_Portal"]
+_data = {
+"spin": SubResource("Anim_PortalSpin")
+}
+
+[sub_resource type="StandardMaterial3D" id="Mat_Rock"]
+albedo_color = Color(0.3, 0.3, 0.35, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_Rock"]
+material = SubResource("Mat_Rock")
+size = Vector3(3, 2, 3)
+
+[sub_resource type="BoxShape3D" id="Shape_Rock"]
+size = Vector3(3, 2, 3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Spike"]
+albedo_color = Color(0.55, 0.55, 0.6, 1)
+metallic = 0.6
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="Mesh_Spike"]
+material = SubResource("Mat_Spike")
+top_radius = 0.05
+bottom_radius = 0.18
+height = 0.5
+
+[sub_resource type="BoxShape3D" id="Shape_TrapZone"]
+size = Vector3(2.4, 0.4, 2.4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ChestGold"]
+albedo_color = Color(0.75, 0.55, 0.15, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_ChestBase"]
+material = SubResource("Mat_ChestGold")
+size = Vector3(1.1, 0.7, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ChestWood"]
+albedo_color = Color(0.5, 0.3, 0.12, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_ChestLid"]
+material = SubResource("Mat_ChestWood")
+size = Vector3(1.1, 0.22, 0.85)
+
+[sub_resource type="BoxShape3D" id="Shape_ChestZone"]
+size = Vector3(2.2, 1.4, 2.2)
+
+[node name="Dungeon" type="Node3D"]
+script = ExtResource("1_world")
+spawn_position = Vector3(-40, 0.4, 9)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env_Dungeon")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.5, -0.6, 0.624, 0, 0.7, 0.714, -0.866, -0.4, 0.3, 0, 10, 0)
+light_color = Color(0.5, 0.4, 0.7, 1)
+light_energy = 0.6
+shadow_enabled = true
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor"]
+mesh = SubResource("Mesh_DungeonFloor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+shape = SubResource("Shape_DungeonFloor")
+
+[node name="WallNorth" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12.5)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/WallNorth"]
+mesh = SubResource("Mesh_EndWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WallNorth"]
+shape = SubResource("Shape_EndWall")
+
+[node name="WallSouth" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 12.5)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/WallSouth"]
+mesh = SubResource("Mesh_EndWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WallSouth"]
+shape = SubResource("Shape_EndWall")
+
+[node name="WallWest" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5, 3, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/WallWest"]
+mesh = SubResource("Mesh_SideWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WallWest"]
+shape = SubResource("Shape_SideWall")
+
+[node name="WallEast" type="StaticBody3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.5, 3, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/WallEast"]
+mesh = SubResource("Mesh_SideWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WallEast"]
+shape = SubResource("Shape_SideWall")
+
+[node name="RoomDividers" type="Node3D" parent="Environment"]
+
+[node name="DividerEntrance" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 3, -7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerEntrance"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerEntrance"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerEntrance2" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 3, 7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerEntrance2"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerEntrance2"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerTrap" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3, -7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerTrap"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerTrap"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerTrap2" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 3, 7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerTrap2"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerTrap2"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerTreasure" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3, -7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerTreasure"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerTreasure"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerTreasure2" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3, 7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerTreasure2"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerTreasure2"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerBoss" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3, -7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerBoss"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerBoss"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="DividerBoss2" type="StaticBody3D" parent="Environment/RoomDividers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3, 7)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/RoomDividers/DividerBoss2"]
+mesh = SubResource("Mesh_CrossWall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/RoomDividers/DividerBoss2"]
+shape = SubResource("Shape_CrossWall")
+
+[node name="Columns" type="Node3D" parent="Environment"]
+
+[node name="Column1" type="StaticBody3D" parent="Environment/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 2.5, -8)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Columns/Column1"]
+mesh = SubResource("Mesh_Column")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Columns/Column1"]
+shape = SubResource("Shape_Column")
+
+[node name="Torch1" type="MeshInstance3D" parent="Environment/Columns/Column1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("Mesh_Torch")
+
+[node name="Fire1" type="MeshInstance3D" parent="Environment/Columns/Column1/Torch1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Mesh_FireBall")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Columns/Column1/Torch1/Fire1"]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 3.0
+omni_range = 9.0
+
+[node name="Column2" type="StaticBody3D" parent="Environment/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 2.5, 8)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Columns/Column2"]
+mesh = SubResource("Mesh_Column")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Columns/Column2"]
+shape = SubResource("Shape_Column")
+
+[node name="Torch2" type="MeshInstance3D" parent="Environment/Columns/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("Mesh_Torch")
+
+[node name="Fire2" type="MeshInstance3D" parent="Environment/Columns/Column2/Torch2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Mesh_FireBall")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Columns/Column2/Torch2/Fire2"]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 3.0
+omni_range = 9.0
+
+[node name="Column3" type="StaticBody3D" parent="Environment/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -8)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Columns/Column3"]
+mesh = SubResource("Mesh_Column")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Columns/Column3"]
+shape = SubResource("Shape_Column")
+
+[node name="Torch3" type="MeshInstance3D" parent="Environment/Columns/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("Mesh_Torch")
+
+[node name="Fire3" type="MeshInstance3D" parent="Environment/Columns/Column3/Torch3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Mesh_FireBall")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Columns/Column3/Torch3/Fire3"]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 3.0
+omni_range = 9.0
+
+[node name="Column4" type="StaticBody3D" parent="Environment/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.5, 8)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Columns/Column4"]
+mesh = SubResource("Mesh_Column")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Columns/Column4"]
+shape = SubResource("Shape_Column")
+
+[node name="Torch4" type="MeshInstance3D" parent="Environment/Columns/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("Mesh_Torch")
+
+[node name="Fire4" type="MeshInstance3D" parent="Environment/Columns/Column4/Torch4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Mesh_FireBall")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Columns/Column4/Torch4/Fire4"]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 3.0
+omni_range = 9.0
+
+[node name="Column5" type="StaticBody3D" parent="Environment/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 2.5, -8)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Columns/Column5"]
+mesh = SubResource("Mesh_Column")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Columns/Column5"]
+shape = SubResource("Shape_Column")
+
+[node name="Torch5" type="MeshInstance3D" parent="Environment/Columns/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("Mesh_Torch")
+
+[node name="Fire5" type="MeshInstance3D" parent="Environment/Columns/Column5/Torch5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Mesh_FireBall")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Columns/Column5/Torch5/Fire5"]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 3.0
+omni_range = 9.0
+
+[node name="Column6" type="StaticBody3D" parent="Environment/Columns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 2.5, 8)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Columns/Column6"]
+mesh = SubResource("Mesh_Column")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Columns/Column6"]
+shape = SubResource("Shape_Column")
+
+[node name="Torch6" type="MeshInstance3D" parent="Environment/Columns/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("Mesh_Torch")
+
+[node name="Fire6" type="MeshInstance3D" parent="Environment/Columns/Column6/Torch6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+mesh = SubResource("Mesh_FireBall")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Columns/Column6/Torch6/Fire6"]
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 3.0
+omni_range = 9.0
+
+[node name="Rocks" type="Node3D" parent="Environment"]
+
+[node name="Rock1" type="StaticBody3D" parent="Environment/Rocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 1.0, 4)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Rocks/Rock1"]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Rock")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Rocks/Rock1"]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Rock")
+
+[node name="Rock2" type="StaticBody3D" parent="Environment/Rocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.9, -3)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Rocks/Rock2"]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Rock")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Rocks/Rock2"]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Rock")
+
+[node name="Traps" type="Node3D" parent="."]
+
+[node name="Trap1" type="Area3D" parent="Traps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 0.4, 0)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("5_trap")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Traps/Trap1"]
+shape = SubResource("Shape_TrapZone")
+
+[node name="Spike1" type="MeshInstance3D" parent="Traps/Trap1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, -0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike2" type="MeshInstance3D" parent="Traps/Trap1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, 0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike3" type="MeshInstance3D" parent="Traps/Trap1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, -0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike4" type="MeshInstance3D" parent="Traps/Trap1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, 0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Trap2" type="Area3D" parent="Traps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.4, 6)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("5_trap")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Traps/Trap2"]
+shape = SubResource("Shape_TrapZone")
+
+[node name="Spike1" type="MeshInstance3D" parent="Traps/Trap2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, -0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike2" type="MeshInstance3D" parent="Traps/Trap2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, 0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike3" type="MeshInstance3D" parent="Traps/Trap2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, -0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike4" type="MeshInstance3D" parent="Traps/Trap2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, 0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Trap3" type="Area3D" parent="Traps"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -6)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("5_trap")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Traps/Trap3"]
+shape = SubResource("Shape_TrapZone")
+
+[node name="Spike1" type="MeshInstance3D" parent="Traps/Trap3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, -0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike2" type="MeshInstance3D" parent="Traps/Trap3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, 0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike3" type="MeshInstance3D" parent="Traps/Trap3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, -0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="Spike4" type="MeshInstance3D" parent="Traps/Trap3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, 0.6)
+mesh = SubResource("Mesh_Spike")
+
+[node name="TreasureChest" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0.9, 0)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("6_chest")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TreasureChest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+shape = SubResource("Shape_ChestZone")
+
+[node name="Base" type="MeshInstance3D" parent="TreasureChest"]
+mesh = SubResource("Mesh_ChestBase")
+
+[node name="Lid" type="MeshInstance3D" parent="TreasureChest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0)
+mesh = SubResource("Mesh_ChestLid")
+
+[node name="OpenLight" type="OmniLight3D" parent="TreasureChest"]
+light_color = Color(1, 0.8, 0.3, 1)
+light_energy = 5.0
+omni_range = 6.0
+visible = false
+
+[node name="PortalToMeadow" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42, 1.8, -6)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("4_portal")
+target_scene = "res://scenes/world/meadow.tscn"
+location_name = "Полянка"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalToMeadow"]
+shape = SubResource("Shape_PortalZone")
+
+[node name="Ring" type="MeshInstance3D" parent="PortalToMeadow"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_PortalRing")
+
+[node name="Core" type="MeshInstance3D" parent="PortalToMeadow"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_PortalCore")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PortalToMeadow"]
+libraries = {
+"": SubResource("AnimLib_Portal")
+}
+
+[node name="OmniLight3D" type="OmniLight3D" parent="PortalToMeadow"]
+light_color = Color(0.2, 1.0, 0.5, 1)
+light_energy = 4.0
+omni_range = 8.0
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="DungeonEnemy1" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 0.4, 2)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy2" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.4, 4)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy3" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.4, -4)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy4" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.4, 6)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy5" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.4, -4)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy6" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.4, 4)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy7" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.4, 2)
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
+
+[node name="DungeonEnemy8" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0.4, -6)
+max_health = 400.0
+display_name = "👹 СТРАЖ"
+attack_damage = 30.0
+respawns = false
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 100 }, { "id": "potion", "count": 2 }, { "id": "gem", "count": 1 }])
+
+[node name="BossEnemy" parent="Enemies" instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 0.4, 0)
+max_health = 1200.0
+display_name = "👹 ВЛАДЫКА ПОДЗЕМЕЛЬЯ"
+attack_damage = 35.0
+respawns = false
+loot_on_death = true
+loot_table = Array[Dictionary]([{ "id": "coin", "count": 500 }, { "id": "big_potion", "count": 2 }, { "id": "gem", "count": 5 }, { "id": "bone_key", "count": 1 }])
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]

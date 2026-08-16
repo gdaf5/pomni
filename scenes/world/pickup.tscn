@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scenes/world/pickup.gd" id="1_script"]
+
+[sub_resource type="SphereShape3D" id="SphereShape"]
+radius = 0.7
+
+[sub_resource type="CylinderMesh" id="CylMesh"]
+top_radius = 0.32
+bottom_radius = 0.32
+height = 0.12
+
+[sub_resource type="SphereMesh" id="GlowSphere"]
+radius = 0.45
+height = 0.9
+
+[sub_resource type="StandardMaterial3D" id="CoinMat"]
+albedo_color = Color(0.95, 0.75, 0.15, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="GlowMat"]
+albedo_color = Color(0.15, 0.5, 1, 0.6)
+emission_enabled = true
+emission = Color(0.2, 0.5, 1, 1)
+emission_energy_multiplier = 1.5
+
+[node name="Pickup" type="Area3D"]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("SphereShape")
+
+[node name="MeshPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="MeshPivot"]
+mesh = SubResource("CylMesh")
+surface_material_override/0 = SubResource("CoinMat")
+
+[node name="Glow" type="MeshInstance3D" parent="MeshPivot"]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
+mesh = SubResource("GlowSphere")
+surface_material_override/0 = SubResource("GlowMat")
+
+[node name="Label" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+billboard = 1
+modulate = Color(1, 1, 1, 0.9)
+outline_modulate = Color(0, 0, 0, 0.8)
+pixel_size = 0.004
+font_size = 42
+text = "Монета x1"

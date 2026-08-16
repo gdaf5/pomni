@@ -1,0 +1,81 @@
+﻿[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Flash"]
+transparency = 1
+shading_mode = 0
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.95, 0.6, 1)
+
+[sub_resource type="PlaneMesh" id="Mesh_Flash"]
+size = Vector2(0.4, 0.4)
+
+[sub_resource type="Animation" id="Anim_Flash"]
+resource_name = "flash"
+length = 0.06
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.06),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0.95, 0.6, 1), Color(1, 0.6, 0.1, 0.8), Color(1, 0.3, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.06),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(2, 0.1, 2)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.06),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimLib_Flash"]
+_data = {
+"flash": SubResource("Anim_Flash")
+}
+
+[sub_resource type="GDScript" id="GDScript_Flash"]
+script/source = "extends Node3D
+
+@onready var anim: AnimationPlayer = $AnimationPlayer
+
+func _ready() -> void:
+	if anim:
+		anim.play(\"flash\")
+"
+
+[node name="MuzzleFlash" type="Node3D"]
+script = SubResource("GDScript_Flash")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("Mat_Flash")
+mesh = SubResource("Mesh_Flash")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimLib_Flash")
+}

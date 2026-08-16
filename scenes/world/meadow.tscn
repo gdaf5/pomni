@@ -1,0 +1,485 @@
+[gd_scene format=3 uid="uid://btsi4h2cgrs5j"]
+
+[ext_resource type="Script" uid="uid://dstqsprji2h2w" path="res://scenes/world/world.gd" id="1_world"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/characters/dummy/dummy.tscn" id="3_dummy"]
+[ext_resource type="Script" uid="uid://dkgjkvc0k3r6d" path="res://scripts/portal.gd" id="4_portal"]
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_Proc"]
+sky_top_color = Color(0.25, 0.5, 0.85, 1)
+sky_horizon_color = Color(0.75, 0.85, 0.95, 1)
+ground_bottom_color = Color(0.1, 0.2, 0.12, 1)
+ground_horizon_color = Color(0.45, 0.65, 0.5, 1)
+
+[sub_resource type="Sky" id="Sky_Meadow"]
+sky_material = SubResource("Sky_Proc")
+
+[sub_resource type="Environment" id="Env_Meadow"]
+background_mode = 2
+sky = SubResource("Sky_Meadow")
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 0.7
+glow_bloom = 0.2
+fog_enabled = true
+fog_light_color = Color(0.7, 0.8, 0.85, 1)
+fog_density = 0.004
+
+[sub_resource type="StandardMaterial3D" id="Mat_Grass"]
+albedo_color = Color(0.3, 0.55, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_Ground"]
+material = SubResource("Mat_Grass")
+size = Vector3(80, 1, 80)
+
+[sub_resource type="BoxShape3D" id="Shape_Ground"]
+size = Vector3(80, 1, 80)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Hill"]
+albedo_color = Color(0.32, 0.5, 0.28, 1)
+roughness = 0.85
+
+[sub_resource type="SphereMesh" id="Mesh_Hill"]
+material = SubResource("Mat_Hill")
+radius = 8.0
+height = 8.0
+
+[sub_resource type="SphereShape3D" id="Shape_Hill"]
+radius = 8.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Rock"]
+albedo_color = Color(0.45, 0.45, 0.5, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_Rock"]
+material = SubResource("Mat_Rock")
+size = Vector3(4, 3, 4)
+
+[sub_resource type="BoxShape3D" id="Shape_Rock"]
+size = Vector3(4, 3, 4)
+
+[sub_resource type="StandardMaterial3D" id="Mat_TreeTrunk"]
+albedo_color = Color(0.35, 0.22, 0.12, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="Mesh_TreeTrunk"]
+material = SubResource("Mat_TreeTrunk")
+bottom_radius = 0.7
+height = 4.0
+
+[sub_resource type="CylinderShape3D" id="Shape_TreeTrunk"]
+height = 4.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_TreeLeaves"]
+albedo_color = Color(0.25, 0.5, 0.2, 1)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="Mesh_TreeLeaves"]
+material = SubResource("Mat_TreeLeaves")
+radius = 2.5
+height = 2.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Water"]
+transparency = 1
+albedo_color = Color(0.15, 0.45, 0.7, 0.8)
+metallic = 0.1
+roughness = 0.2
+
+[sub_resource type="PlaneMesh" id="Mesh_Water"]
+material = SubResource("Mat_Water")
+size = Vector2(80, 16)
+
+[sub_resource type="BoxShape3D" id="Shape_Water"]
+size = Vector3(80, 1, 16)
+
+[sub_resource type="StandardMaterial3D" id="Mat_BridgePost"]
+albedo_color = Color(0.4, 0.28, 0.16, 1)
+roughness = 0.6
+
+[sub_resource type="CylinderMesh" id="Mesh_BridgePost"]
+material = SubResource("Mat_BridgePost")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 3.0
+
+[sub_resource type="CylinderShape3D" id="Shape_BridgePost"]
+height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_BridgeWood"]
+albedo_color = Color(0.5, 0.32, 0.18, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="Mesh_Plank"]
+material = SubResource("Mat_BridgeWood")
+size = Vector3(10, 0.2, 0.5)
+
+[sub_resource type="BoxShape3D" id="Shape_Plank"]
+size = Vector3(10, 0.2, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_DungeonEntrance"]
+albedo_color = Color(0.12, 0.12, 0.16, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="Mesh_CaveRing"]
+material = SubResource("Mat_DungeonEntrance")
+top_radius = 2.5
+bottom_radius = 3.0
+height = 0.4
+
+[sub_resource type="CylinderShape3D" id="Shape_CaveRing"]
+height = 0.4
+
+[sub_resource type="CylinderShape3D" id="Shape_PortalZone"]
+height = 2.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Portal"]
+transparency = 1
+albedo_color = Color(0.1, 0.9, 0.5, 0.7)
+emission_enabled = true
+emission = Color(0.1, 0.9, 0.5, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="TorusMesh" id="Mesh_PortalRing"]
+material = SubResource("Mat_Portal")
+inner_radius = 1.3
+outer_radius = 1.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_PortalCore"]
+transparency = 1
+albedo_color = Color(0.3, 1, 0.6, 0.6)
+emission_enabled = true
+emission = Color(0.2, 1, 0.5, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="CylinderMesh" id="Mesh_PortalCore"]
+material = SubResource("Mat_PortalCore")
+top_radius = 1.2
+bottom_radius = 1.2
+height = 0.1
+
+[sub_resource type="Animation" id="Anim_PortalSpin"]
+resource_name = "spin"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Ring:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+
+[sub_resource type="AnimationLibrary" id="AnimLib_Portal"]
+_data = {
+&"spin": SubResource("Anim_PortalSpin")
+}
+
+[node name="Meadow" type="Node3D" unique_id=1163207414]
+script = ExtResource("1_world")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=425693340]
+environment = SubResource("Env_Meadow")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=299350240]
+transform = Transform3D(0.866025, -0.45, 0.2, 0, 0.5, 0.866025, -0.5, -0.75, 0.433012, 10, 25, 10)
+light_color = Color(1, 0.98, 0.9, 1)
+light_energy = 1.4
+shadow_enabled = true
+
+[node name="Environment" type="Node3D" parent="." unique_id=2032492954]
+
+[node name="Ground" type="StaticBody3D" parent="Environment" unique_id=681512985]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Ground" unique_id=144950144]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.605572)
+mesh = SubResource("Mesh_Ground")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Ground" unique_id=756972248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.256794)
+shape = SubResource("Shape_Ground")
+
+[node name="Hills" type="Node3D" parent="Environment" unique_id=426382799]
+
+[node name="Hill1" type="StaticBody3D" parent="Environment/Hills" unique_id=1916797535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 2.5, -15)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Hills/Hill1" unique_id=2134047469]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Hill")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill1" unique_id=620489513]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill")
+
+[node name="Hill2" type="StaticBody3D" parent="Environment/Hills" unique_id=1276313224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 2.2, 5)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Hills/Hill2" unique_id=735567062]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Hill")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill2" unique_id=1139850553]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill")
+
+[node name="Hill3" type="StaticBody3D" parent="Environment/Hills" unique_id=141453845]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2, -20)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Hills/Hill3" unique_id=1175209339]
+transform = Transform3D(1, 0, 0, 0, 0.45, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Hill")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill3" unique_id=1542561005]
+transform = Transform3D(1, 0, 0, 0, 0.45, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill")
+
+[node name="Hill4" type="StaticBody3D" parent="Environment/Hills" unique_id=1059894108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 2.6, 12)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Hills/Hill4" unique_id=1321087585]
+transform = Transform3D(1, 0, 0, 0, 0.55, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Hill")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Hills/Hill4" unique_id=2030838734]
+transform = Transform3D(1, 0, 0, 0, 0.55, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Hill")
+
+[node name="Rocks" type="Node3D" parent="Environment" unique_id=1400187131]
+
+[node name="Rock1" type="StaticBody3D" parent="Environment/Rocks" unique_id=1718936699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -10)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Rocks/Rock1" unique_id=1199112875]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Rock")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Rocks/Rock1" unique_id=1188184927]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Rock")
+
+[node name="Rock2" type="StaticBody3D" parent="Environment/Rocks" unique_id=315795129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.8, 14)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Rocks/Rock2" unique_id=1507559900]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("Mesh_Rock")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Rocks/Rock2" unique_id=573040025]
+transform = Transform3D(1, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("Shape_Rock")
+
+[node name="Trees" type="Node3D" parent="Environment" unique_id=1357132342]
+
+[node name="Tree1" type="StaticBody3D" parent="Environment/Trees" unique_id=760047783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -25)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Trees/Tree1" unique_id=371765954]
+mesh = SubResource("Mesh_TreeTrunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Trees/Tree1" unique_id=1611965921]
+shape = SubResource("Shape_TreeTrunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="Environment/Trees/Tree1" unique_id=65762795]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("Mesh_TreeLeaves")
+
+[node name="Tree2" type="StaticBody3D" parent="Environment/Trees" unique_id=1554412350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28, 2, -22)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Trees/Tree2" unique_id=1832135859]
+mesh = SubResource("Mesh_TreeTrunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Trees/Tree2" unique_id=237989378]
+shape = SubResource("Shape_TreeTrunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="Environment/Trees/Tree2" unique_id=1243867254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("Mesh_TreeLeaves")
+
+[node name="Tree3" type="StaticBody3D" parent="Environment/Trees" unique_id=1682378647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26, 2, 22)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Trees/Tree3" unique_id=432321076]
+mesh = SubResource("Mesh_TreeTrunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Trees/Tree3" unique_id=725802025]
+shape = SubResource("Shape_TreeTrunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="Environment/Trees/Tree3" unique_id=560922011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("Mesh_TreeLeaves")
+
+[node name="Tree4" type="StaticBody3D" parent="Environment/Trees" unique_id=392562704]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 2, 24)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Trees/Tree4" unique_id=56888295]
+mesh = SubResource("Mesh_TreeTrunk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Trees/Tree4" unique_id=1443574815]
+shape = SubResource("Shape_TreeTrunk")
+
+[node name="Leaves" type="MeshInstance3D" parent="Environment/Trees/Tree4" unique_id=1715509035]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
+mesh = SubResource("Mesh_TreeLeaves")
+
+[node name="Water" type="StaticBody3D" parent="Environment" unique_id=2089758493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 30)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Water" unique_id=1973085304]
+mesh = SubResource("Mesh_Water")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Water" unique_id=46756374]
+shape = SubResource("Shape_Water")
+
+[node name="Bridge" type="Node3D" parent="Environment" unique_id=1305790262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+
+[node name="PostA" type="StaticBody3D" parent="Environment/Bridge" unique_id=424087062]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8, 1.5, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Bridge/PostA" unique_id=1902632880]
+mesh = SubResource("Mesh_BridgePost")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Bridge/PostA" unique_id=813811850]
+shape = SubResource("Shape_BridgePost")
+
+[node name="PostB" type="StaticBody3D" parent="Environment/Bridge" unique_id=1788506596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8, 1.5, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Bridge/PostB" unique_id=1379945846]
+mesh = SubResource("Mesh_BridgePost")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Bridge/PostB" unique_id=541208619]
+shape = SubResource("Shape_BridgePost")
+
+[node name="Plank1" type="StaticBody3D" parent="Environment/Bridge" unique_id=788524122]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Bridge/Plank1" unique_id=1351310362]
+mesh = SubResource("Mesh_Plank")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Bridge/Plank1" unique_id=327418397]
+shape = SubResource("Shape_Plank")
+
+[node name="Plank2" type="StaticBody3D" parent="Environment/Bridge" unique_id=1114099130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, -0.55)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Bridge/Plank2" unique_id=73083828]
+mesh = SubResource("Mesh_Plank")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Bridge/Plank2" unique_id=1132825629]
+shape = SubResource("Shape_Plank")
+
+[node name="Plank3" type="StaticBody3D" parent="Environment/Bridge" unique_id=36587307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.1, 0.55)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Bridge/Plank3" unique_id=349433091]
+mesh = SubResource("Mesh_Plank")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Bridge/Plank3" unique_id=254814871]
+shape = SubResource("Shape_Plank")
+
+[node name="DungeonEntrance" type="StaticBody3D" parent="Environment" unique_id=1764593130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 45)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/DungeonEntrance" unique_id=929851746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+mesh = SubResource("Mesh_CaveRing")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/DungeonEntrance" unique_id=181308371]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("Shape_CaveRing")
+
+[node name="PortalToDungeon" type="Area3D" parent="." unique_id=1473826266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 45)
+collision_layer = 0
+script = ExtResource("4_portal")
+target_scene = "res://scenes/world/dungeon.tscn"
+location_name = "Подземелье"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalToDungeon" unique_id=1839953967]
+shape = SubResource("Shape_PortalZone")
+
+[node name="Ring" type="MeshInstance3D" parent="PortalToDungeon" unique_id=2138714730]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_PortalRing")
+
+[node name="Core" type="MeshInstance3D" parent="PortalToDungeon" unique_id=976731955]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_PortalCore")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PortalToDungeon" unique_id=2139844569]
+libraries/ = SubResource("AnimLib_Portal")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="PortalToDungeon" unique_id=2096012689]
+light_color = Color(0.2, 1, 0.5, 1)
+light_energy = 4.0
+omni_range = 8.0
+
+[node name="PortalBack" type="Area3D" parent="." unique_id=1972899300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 8)
+collision_layer = 0
+script = ExtResource("4_portal")
+target_scene = "res://scenes/world/world.tscn"
+location_name = "Тренировочная арена"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalBack" unique_id=807014809]
+shape = SubResource("Shape_PortalZone")
+
+[node name="Ring" type="MeshInstance3D" parent="PortalBack" unique_id=424646216]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_PortalRing")
+
+[node name="Core" type="MeshInstance3D" parent="PortalBack" unique_id=345073494]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("Mesh_PortalCore")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PortalBack" unique_id=2049135251]
+libraries/ = SubResource("AnimLib_Portal")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="PortalBack" unique_id=31216881]
+light_color = Color(0.2, 1, 0.5, 1)
+light_energy = 4.0
+omni_range = 8.0
+
+[node name="Enemies" type="Node3D" parent="." unique_id=632369166]
+
+[node name="MeadowEnemy1" parent="Enemies" unique_id=521357845 instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.4, 10)
+
+[node name="MeadowEnemy2" parent="Enemies" unique_id=1651554691 instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.4, -8)
+
+[node name="MeadowEnemy3" parent="Enemies" unique_id=1569246837 instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.4, 6)
+
+[node name="MeadowEnemy4" parent="Enemies" unique_id=1702364701 instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.4, -5)
+
+[node name="MeadowEnemy5" parent="Enemies" unique_id=295265378 instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 20)
+
+[node name="MeadowEnemy6" parent="Enemies" unique_id=60352420 instance=ExtResource("3_dummy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0.4, 25)
+
+[node name="HUD" parent="." unique_id=1796931753 instance=ExtResource("2_hud")]

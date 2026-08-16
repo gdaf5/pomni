@@ -1,0 +1,322 @@
+﻿[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/hud.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="2_inventory"]
+
+[sub_resource type="StyleBoxFlat" id="Style_HP_BG"]
+bg_color = Color(0.12, 0.05, 0.05, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.1, 0.1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_HP_Fill"]
+bg_color = Color(0.88, 0.15, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_Stm_BG"]
+bg_color = Color(0.05, 0.1, 0.08, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.3, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_Stm_Fill"]
+bg_color = Color(0.1, 0.8, 0.45, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_Badge_BG"]
+bg_color = Color(0.08, 0.1, 0.15, 0.75)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.5, 0.8, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_Panel_BG"]
+bg_color = Color(0.06, 0.08, 0.12, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.35, 0.5, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="Style_Ammo_BG"]
+bg_color = Color(0.08, 0.12, 0.18, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.5, 0.7, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatusContainer" type="VBoxContainer" parent="Root"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 324.0
+offset_bottom = 140.0
+theme_override_constants/separation = 8
+
+[node name="HealthBar" type="ProgressBar" parent="Root/StatusContainer"]
+custom_minimum_size = Vector2(300, 24)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_HP_BG")
+theme_override_styles/fill = SubResource("Style_HP_Fill")
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Root/StatusContainer/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 13
+text = "100 / 100 HP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StaminaBar" type="ProgressBar" parent="Root/StatusContainer"]
+custom_minimum_size = Vector2(300, 18)
+layout_mode = 2
+theme_override_styles/background = SubResource("Style_Stm_BG")
+theme_override_styles/fill = SubResource("Style_Stm_Fill")
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Root/StatusContainer/StaminaBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "100 / 100 STAMINA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StateBadge" type="PanelContainer" parent="Root/StatusContainer"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_Badge_BG")
+
+[node name="Label" type="Label" parent="Root/StatusContainer/StateBadge"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "РЕЖИМ: ГОТОВ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponIcon" type="Label" parent="Root/StatusContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "⚔"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmmoContainer" type="HBoxContainer" parent="Root/StatusContainer"]
+layout_mode = 2
+visible = false
+theme_override_constants/separation = 4
+
+[node name="AmmoCurrent" type="Label" parent="Root/StatusContainer/AmmoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "30"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmmoReserve" type="Label" parent="Root/StatusContainer/AmmoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.6, 0.8, 1, 1)
+text = "/ 120"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReloadIndicator" type="Label" parent="Root/StatusContainer/AmmoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 0.6, 0.2, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlsPanel" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -280.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 310.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("Style_Panel_BG")
+
+[node name="Margin" type="MarginContainer" parent="Root/ControlsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Root/ControlsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "⚔ УПРАВЛЕНИЕ"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="WeaponSwitch" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "• 1 / 2 — Меч / Автомат"
+
+[node name="Move" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "• WASD — Перемещение"
+
+[node name="Sprint" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "• Shift — Спринт"
+
+[node name="Jump" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "• Пробел — Прыжок"
+
+[node name="Roll" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "• Q / Alt — Кувырок (i-frames)"
+
+[node name="AttackLight" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "• ЛКМ — Удар мечом / Стрельба"
+
+[node name="AttackHeavy" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "• ПКМ — Прицел (Автомат) / Сильный удар (Меч)"
+
+[node name="Reload" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "• R — Перезарядка автомата"
+
+[node name="Block" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "• F — Блок (Меч)"
+
+[node name="Dance" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.4, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "• B — Танец 🕺"
+
+[node name="MouseToggle" type="Label" parent="Root/ControlsPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 11
+text = "• Esc — Курсор мыши"
+
+[node name="Toast" type="Label" parent="Root"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 20
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="Crosshair" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.4)
+
+[node name="InventoryUI" parent="." instance=ExtResource("2_inventory")]
