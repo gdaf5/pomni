@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8qxm9k7n4p2a"]
+
+[ext_resource type="Script" path="res://scripts/enemies/void_reaper.gd" id="1_void"]
+
+[node name="VoidReaper" type="CharacterBody3D"]
+script = ExtResource("1_void")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="VisionRay" type="RayCast3D" parent="."]
+target_position = Vector3(0, 0, -15)
+collision_mask = 2
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = null
+
+[node name="VoidParticles" type="GPUParticles3D" parent="."]
+emitting = true
+amount = 50
+lifetime = 1.5
+
+[node name="TrailMesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("trail_mesh")

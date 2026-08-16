@@ -1,12 +1,28 @@
-# Godot 4+ specific ignores
-.godot/
-/android/
+```
+# Godot-specific ignores
+*.import
+*.uid
+export_presets.cfg
+.autoloads/
+.editor/
 
-# Exported builds
-/build/
-/export/
+# Build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
 
-# OS junk
-Thumbs.db
-Desktop.ini
+# Dependencies
+.addons/
+
+# Logs
+*.log
+
+# Temporary files
 *.tmp
+*.bak
+
+# System files
+.DS_Store
+Thumbs.db
+```
