@@ -1,5 +1,5 @@
-```
 # Godot-specific ignores
+.godot/
 *.import
 *.uid
 export_presets.cfg
@@ -25,4 +25,3 @@ export_presets.cfg
 # System files
 .DS_Store
 Thumbs.db
-```
