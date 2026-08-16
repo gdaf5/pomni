@@ -11,15 +11,16 @@ var skill_catalog: Array = []  # Массив SkillDefinition
 var _skill_buttons: Dictionary = {}  # skill_id -> Button
 var _selected_skill_id: String = ""
 
-@onready var skill_container: GridContainer = $Margin/Contents/SkillGrid
-@onready var detail_panel: PanelContainer = $Margin/Contents/DetailPanel
-@onready var detail_name: Label = $Margin/Contents/DetailPanel/VBox/Name
-@onready var detail_desc: Label = $Margin/Contents/DetailPanel/VBox/Desc
-@onready var detail_level: Label = $Margin/Contents/DetailPanel/VBox/Level
-@onready var detail_cost: Label = $Margin/Contents/DetailPanel/VBox/Cost
-@onready var detail_prereq: Label = $Margin/Contents/DetailPanel/VBox/Prereq
-@onready var unlock_button: Button = $Margin/Contents/DetailPanel/VBox/UnlockButton
-@onready var skill_points_label: Label = $Margin/Contents/Header/SkillPoints
+@onready var skill_container: GridContainer = $Margin/Contents/Body/GridWrap/SkillGrid
+@onready var detail_panel: PanelContainer = $Margin/Contents/Body/DetailPanel
+@onready var detail_name: Label = $Margin/Contents/Body/DetailPanel/VBox/Name
+@onready var detail_desc: Label = $Margin/Contents/Body/DetailPanel/VBox/Desc
+@onready var detail_level: Label = $Margin/Contents/Body/DetailPanel/VBox/Level
+@onready var detail_cost: Label = $Margin/Contents/Body/DetailPanel/VBox/Cost
+@onready var detail_prereq: Label = $Margin/Contents/Body/DetailPanel/VBox/Prereq
+@onready var unlock_button: Button = $Margin/Contents/Body/DetailPanel/VBox/UnlockButton
+@onready var skill_points_label: Label = $Margin/Contents/Header/SkillPointsPanel/SkillPoints
+@onready var level_label: Label = $Margin/Contents/Header/LevelPanel/LevelInfo
 
 func _ready() -> void:
 	visible = false
@@ -35,15 +36,19 @@ func _ready() -> void:
 func _setup(prog: PlayerProgression) -> void:
 	progression = prog
 	progression.skill_points_changed.connect(_update_skill_points_display)
+	progression.level_up.connect(_update_level_display)
 	progression.skill_unlocked.connect(_on_skill_unlocked)
 	progression.stats_updated.connect(_refresh)
 	_update_skill_points_display(progression.skill_points)
+	_update_level_display(progression.current_level)
+	_refresh()
 
 func _load_skill_catalog() -> void:
 	# Загрузка каталога навыков из ресурса
 	# Временная заглушка - создадим тестовые навыки
 	_create_test_skills()
-	_refresh()
+	if progression:
+		_refresh()
 
 func _create_test_skills() -> void:
 	# Создаём тестовые навыки для демонстрации
@@ -127,6 +132,11 @@ func _create_test_skills() -> void:
 	skill_catalog.append(heavy_hitter)
 
 func toggle() -> void:
+	if not progression:
+		GameManager.init_progression()
+		progression = GameManager.player_progression
+		if not progression:
+			return
 	visible = not visible
 	if visible:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -143,6 +153,8 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _refresh() -> void:
+	if not progression:
+		return
 	# Очистка старых кнопок
 	for btn in _skill_buttons.values():
 		if is_instance_valid(btn):
@@ -159,7 +171,7 @@ func _refresh() -> void:
 		var is_maxed = current_level >= skill_def.max_level
 		var can_unlock = progression.can_unlock_skill(skill_def, 1)
 		
-		var text := skill_def.icon + "\n"
+		var text: String = skill_def.icon + "\n"
 		text += skill_def.display_name + "\n"
 		text += "Ур: " + str(current_level) + "/" + str(skill_def.max_level)
 		
@@ -233,6 +245,9 @@ func _on_skill_unlocked(skill_id: String, level: int) -> void:
 
 func _update_skill_points_display(points: int) -> void:
 	skill_points_label.text = "Очки навыков: " + str(points)
+
+func _update_level_display(level: int) -> void:
+	level_label.text = "Уровень: " + str(level)
 
 func _get_skill_by_id(skill_id: String) -> SkillDefinition:
 	for skill in skill_catalog:

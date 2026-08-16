@@ -12,6 +12,7 @@ class_name PlayerHUD
 @onready var weapon_icon: Label = $Root/StatusContainer/WeaponIcon
 @onready var reload_indicator: Label = $Root/StatusContainer/AmmoContainer/ReloadIndicator
 @onready var inventory_ui: InventoryUI = $InventoryUI
+@onready var skill_tree_ui: SkillTreeUI = $SkillTreeUI
 
 var current_hp_val: float = 100.0
 var max_hp_val: float = 100.0
@@ -25,17 +26,33 @@ var _player: Player = null
 func _ready() -> void:
 	ammo_container.visible = false
 	add_to_group("hud")
-	inventory_ui.closed.connect(_on_inventory_closed)
+	inventory_ui.closed.connect(_on_panel_closed)
+	skill_tree_ui.closed.connect(_on_panel_closed)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"):
-		if _player:
-			var now_open = not inventory_ui.visible
-			inventory_ui.toggle(_player)
-			_player.input_locked = now_open
+		_toggle_panel(inventory_ui)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("skill_tree"):
+		_toggle_panel(skill_tree_ui)
 		get_viewport().set_input_as_handled()
 
-func _on_inventory_closed() -> void:
+func _toggle_panel(panel: Control) -> void:
+	if not _player:
+		return
+	# Закрыть другое окно, чтобы не пересекались
+	if panel == inventory_ui and skill_tree_ui.visible:
+		skill_tree_ui.toggle()
+	if panel == skill_tree_ui and inventory_ui.visible:
+		inventory_ui.toggle(_player)
+	var now_open = not panel.visible
+	if panel == inventory_ui:
+		inventory_ui.toggle(_player)
+	elif panel == skill_tree_ui:
+		skill_tree_ui.toggle()
+	_player.input_locked = now_open
+
+func _on_panel_closed() -> void:
 	if _player:
 		_player.input_locked = false
 

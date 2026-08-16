@@ -96,6 +96,9 @@ var damage_num_scene: PackedScene = preload("res://scenes/vfx/damage_number.tscn
 var input_locked: bool = false
 
 func _ready() -> void:
+	add_to_group("player")
+	GameManager.init_progression()
+	_apply_progression_bonuses()
 	health = max_health
 	stamina = max_stamina
 	health_changed.emit(health, max_health)
@@ -107,6 +110,13 @@ func _ready() -> void:
 	
 	if model:
 		model.hit_registered.connect(_on_model_hit_registered)
+
+func _apply_progression_bonuses() -> void:
+	var prog := GameManager.player_progression
+	if not prog:
+		return
+	max_health = 100.0 + prog.get_bonus_stat("max_health")
+	max_stamina = 100.0 + prog.get_bonus_stat("max_stamina")
 
 func _setup_weapons() -> void:
 	sword_weapon = SwordWeapon.new()

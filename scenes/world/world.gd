@@ -12,6 +12,9 @@ var player
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
+	# Инициализация прогрессии игрока (уровни/навыки)
+	GameManager.init_progression()
+	
 	player_scene = load(GameManager.get_character_scene())
 	if not player_scene:
 		push_error("Failed to load player scene")

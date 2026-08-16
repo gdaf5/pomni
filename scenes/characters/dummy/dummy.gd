@@ -20,6 +20,7 @@ var original_materials: Dictionary = {}
 @export var respawns: bool = true
 @export var loot_table: Array[Dictionary] = []
 @export var loot_on_death: bool = false
+@export var xp_value: int = 0
 
 var hit_vfx_scene: PackedScene = preload("res://scenes/vfx/hit_particles.tscn")
 var damage_num_scene: PackedScene = preload("res://scenes/vfx/damage_number.tscn")
@@ -101,6 +102,10 @@ func _die() -> void:
 	if loot_on_death:
 		_spawn_loot()
 	
+	if xp_value > 0:
+		GameManager.add_xp(xp_value)
+		_show_xp_gain(xp_value)
+	
 	if not respawns:
 		return
 	
@@ -118,6 +123,21 @@ func _spawn_loot() -> void:
 		get_parent().add_child(pickup)
 		pickup.global_position = global_position + Vector3(randf_range(-1.0, 1.0), 0.5, randf_range(-1.0, 1.0))
 		pickup.setup(item_id, count)
+
+func _show_xp_gain(amount: int) -> void:
+	var label := Label3D.new()
+	label.text = "+" + str(amount) + " XP"
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.font_size = 34
+	label.outline_size = 6
+	label.outline_modulate = Color(0, 0, 0, 1)
+	label.modulate = Color(0.4, 0.9, 1.0, 1.0)
+	label.position = Vector3(0, 2.4, 0)
+	add_child(label)
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(label, "position:y", 3.6, 0.8).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(label, "modulate:a", 0.0, 0.6).set_delay(0.4)
+	tween.chain().tween_callback(label.queue_free)
 
 func _respawn() -> void:
 	health = max_health

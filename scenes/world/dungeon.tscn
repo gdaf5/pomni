@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3]
+[gd_scene load_steps=38 format=3]
 
 [ext_resource type="Script" path="res://scenes/world/world.gd" id="1_world"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="2_hud"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" path="res://scripts/portal.gd" id="4_portal"]
 [ext_resource type="Script" path="res://scenes/world/trap_spikes.gd" id="5_trap"]
 [ext_resource type="Script" path="res://scenes/world/treasure_chest.gd" id="6_chest"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/void_reaper.tscn" id="7_reaper"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/crystal_colossus.tscn" id="8_colossus"]
 
 [sub_resource type="ProceduralSkyMaterial" id="Sky_Proc"]
 sky_top_color = Color(0.02, 0.02, 0.05, 1)
@@ -647,36 +649,43 @@ omni_range = 8.0
 [node name="DungeonEnemy1" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38, 0.4, 2)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy2" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 0.4, 4)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy3" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0.4, -4)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy4" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.4, 6)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy5" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.4, -4)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy6" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0.4, 4)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy7" parent="Enemies" instance=ExtResource("3_dummy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.4, 2)
 loot_on_death = true
+xp_value = 40
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 20 }, { "id": "potion", "count": 1 }])
 
 [node name="DungeonEnemy8" parent="Enemies" instance=ExtResource("3_dummy")]
@@ -686,6 +695,7 @@ display_name = "👹 СТРАЖ"
 attack_damage = 30.0
 respawns = false
 loot_on_death = true
+xp_value = 150
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 100 }, { "id": "potion", "count": 2 }, { "id": "gem", "count": 1 }])
 
 [node name="BossEnemy" parent="Enemies" instance=ExtResource("3_dummy")]
@@ -695,6 +705,19 @@ display_name = "👹 ВЛАДЫКА ПОДЗЕМЕЛЬЯ"
 attack_damage = 35.0
 respawns = false
 loot_on_death = true
+xp_value = 400
 loot_table = Array[Dictionary]([{ "id": "coin", "count": 500 }, { "id": "big_potion", "count": 2 }, { "id": "gem", "count": 5 }, { "id": "bone_key", "count": 1 }])
+
+[node name="VoidReaper1" parent="Enemies" instance=ExtResource("7_reaper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0.4, -5)
+
+[node name="VoidReaper2" parent="Enemies" instance=ExtResource("7_reaper")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0.4, 6)
+
+[node name="CrystalColossus1" parent="Enemies" instance=ExtResource("8_colossus")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.4, -6)
+
+[node name="CrystalColossus2" parent="Enemies" instance=ExtResource("8_colossus")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0.4, 4)
 
 [node name="HUD" parent="." instance=ExtResource("2_hud")]

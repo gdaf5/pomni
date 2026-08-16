@@ -1,7 +1,8 @@
-﻿[gd_scene load_steps=9 format=3]
+﻿[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/hud.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="2_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/ui/skill_tree_ui.tscn" id="3_skilltree"]
 
 [sub_resource type="StyleBoxFlat" id="Style_HP_BG"]
 bg_color = Color(0.12, 0.05, 0.05, 0.8)
@@ -320,3 +321,5 @@ mouse_filter = 2
 color = Color(1, 1, 1, 0.4)
 
 [node name="InventoryUI" parent="." instance=ExtResource("2_inventory")]
+
+[node name="SkillTreeUI" parent="." instance=ExtResource("3_skilltree")]
